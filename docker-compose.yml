@@ -1,0 +1,35 @@
+version: '3.8'
+services:
+  postgres:
+    container_name: Postgres
+    image: postgres:15.3
+    environment:
+      POSTGRES_PASSWORD: '123456'
+      TZ: Asia/Shanghai
+    volumes:
+      - /var/data/postgres/data:/var/lib/postgresql/data
+      - /var/data/postgres/backups:/var/backups
+    ports:
+      - "5432:5432"
+
+  pgadmin4:
+    container_name: PGadmin4
+    image: dpage/pgadmin4:7.8
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "pengcheng.gan@qq.com"
+      PGADMIN_DEFAULT_PASSWORD: "hijulien"
+    volumes:
+       - /var/data/pgadmin4:/var/lib/pgadmin
+    ports:
+      - "5433:80"
+    depends_on:
+      - postgres
+
+  redis: 
+    container_name: Redis
+    image: redis:7.2.3
+    ports:
+      - 6379:6379
+    volumes:
+      - /var/data/redis/data:/data
+      - /var/data/redis/redis.conf:/usr/local/etc/redis/redis.conf
